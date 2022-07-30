@@ -1,0 +1,11 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+    color: #F1F1F1;
+}
+
+body {
+    background: #100F0F;
+}
