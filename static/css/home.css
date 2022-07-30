@@ -1,0 +1,9 @@
+.header {
+    padding: 10px 0 10px 0;
+    background: #0F3D3E;
+    text-shadow: 0 0 10px black;
+}
+
+.header h1:hover {
+    cursor: default;
+}
