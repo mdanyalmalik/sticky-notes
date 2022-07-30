@@ -7,8 +7,25 @@
     text-align: center;
     color: #F1F1F1;
     font-family: 'Roboto', sans-serif;
+
 }
 
 body {
     background: #100F0F;
+}
+
+.addbutton {
+    background: #E2DCC8;
+    color: #100F0F;
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.addbutton:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }
