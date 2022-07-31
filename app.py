@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import os
@@ -15,7 +15,7 @@ db = SQLAlchemy(app)
 
 app.secret_key = os.urandom(KEY_SIZE)
 
-app.permanent_session_lifetime = datetime.timedelta(years=1)
+app.permanent_session_lifetime = datetime.timedelta(days=365)
 
 
 @app.route('/')
@@ -25,6 +25,18 @@ def home():
 
 @app.route('/add')
 def add():
+    key = os.urandom(KEY_SIZE)
+    while str(key) in session:
+        key = os.urandom(KEY_SIZE)
+
+    session[str(key)] = {
+        'content': '',
+        'pos_x': 0,
+        'pos_y': 0
+    }
+
+    print(session)
+
     return redirect('/')
 
 
