@@ -10,7 +10,7 @@ def home():
 
 @app.route('/add')
 def add():
-    return "Add"
+    return redirect('/')
 
 
 if __name__ == '__main__':

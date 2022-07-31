@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Square+Peg&display=swap');
 
 * {
     margin: 0;
@@ -6,8 +6,8 @@
     box-sizing: border-box;
     text-align: center;
     color: #F1F1F1;
-    font-family: 'Roboto', sans-serif;
-
+    font-family: 'Square Peg', cursive;
+    font-weight: lighter;
 }
 
 body {
@@ -17,8 +17,8 @@ body {
 .addbutton {
     background: #E2DCC8;
     color: #100F0F;
+    font-family:'Times New Roman', Times, serif;
     font-size: 40px;
-    font-weight: bold;
     width: 50px;
     height: 50px;
     border-radius: 100px;
