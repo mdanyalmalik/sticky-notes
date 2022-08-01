@@ -3,6 +3,19 @@ function add() {
     var x = 0;
     var y = 0;
 
+    // adding note to page
+    const form = document.createElement("form");
+    const textarea = document.createElement("textarea");
+
+    textarea.onchange = update_note();
+    textarea.classList.add("note");
+    form.append(textarea);
+
+    noteslist = document.querySelector(".noteslist");
+
+    noteslist.append(form);
+
+    // sending note to flask
     fetch("/add", {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
