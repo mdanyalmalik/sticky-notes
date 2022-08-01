@@ -13,3 +13,7 @@ function add() {
     })
     });
 }
+
+function update_note() {
+    console.log("changed");
+}

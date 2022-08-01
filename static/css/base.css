@@ -37,3 +37,26 @@ body {
     transform: scale(0.9);
     box-shadow: none;
 }
+
+.note {
+    background: #E2DCC8;
+    color: #100F0F;
+    font-size: 22px;
+    text-align: left;
+    font-weight: bold;
+
+    min-width: 50px;
+    max-width: 200px;
+    min-height: 50px;
+    max-height: 200px;
+
+    width: 150px;
+    height: 150px;
+
+    transition: transform 0.2s ease-in-out;
+}
+
+.note:active, .note:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 2px #F1F1F1;
+}
