@@ -19,7 +19,7 @@ function update_note() {
 }
 
 document.addEventListener('keydown', event => {
-  if (event.code == "ControlLeft") {
+  if (event.key == "Control") {
     notes = document.querySelectorAll(".note");
     notes.forEach(element => {
         element.style.cursor = "move";
@@ -28,7 +28,7 @@ document.addEventListener('keydown', event => {
 });
 
 document.addEventListener('keyup', event => {
-  if (event.code == "ControlLeft") {
+  if (event.key == "Control") {
     notes = document.querySelectorAll(".note");
     notes.forEach(element => {
         element.style.cursor = "text";
