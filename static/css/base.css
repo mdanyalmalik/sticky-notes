@@ -45,9 +45,9 @@ body {
     text-align: left;
     font-weight: bold;
 
-    min-width: 50px;
+    min-width: 100px;
     max-width: 200px;
-    min-height: 50px;
+    min-height: 100px;
     max-height: 200px;
 
     width: 150px;
