@@ -1,7 +1,8 @@
-from flask import Flask, render_template, url_for, redirect, session
+from flask import Flask, render_template, url_for, redirect, session, request
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import os
+import json
 
 KEY_SIZE = 24
 MAX_NOTE_LENGTH = 500
@@ -23,19 +24,13 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/add')
+@app.post('/add')
 def add():
     key = os.urandom(KEY_SIZE)
     while str(key) in session:
         key = os.urandom(KEY_SIZE)
 
-    session[str(key)] = {
-        'content': '',
-        'pos_x': 0,
-        'pos_y': 0
-    }
-
-    print(session)
+    session[str(key)] = request.json
 
     return redirect('/')
 
