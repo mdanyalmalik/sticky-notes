@@ -26,11 +26,24 @@ def home():
 
 @app.route('/add', methods=['POST'])
 def add():
-    key = os.urandom(KEY_SIZE)
-    while str(key) in session:
-        key = os.urandom(KEY_SIZE)
+    id = request.json['id']
+    content = request.json['content']
+    x, y = request.json['x'], request.json['y']
 
-    session[str(key)] = request.json
+    session.permanent()
+
+    session[id] = {
+        'content': content,
+        'x': x,
+        'y': y
+    }
+
+    return redirect('/')
+
+
+@app.route('/clear')  # temp
+def session_clear():
+    session.clear()
 
     return redirect('/')
 
