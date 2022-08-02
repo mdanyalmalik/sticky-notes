@@ -19,6 +19,7 @@ function load_notes() {
             textarea.style.top = String(data[e].y)+'px';
 
             noteslist.append(textarea);
+            note_id_list.push(e);
         });
     })
     .catch(err => console.log(err))
@@ -34,13 +35,14 @@ function add() {
     textarea.classList.add("note");
 
     noteslist = document.querySelector(".noteslist");
-    noteslist.append(textarea);
 
     // creating note id
     var id = Math.floor(Math.random() * 10000);
     while (note_id_list.includes(id)) id = Math.floor(Math.random() * 1000);
 
     textarea.id = id;
+
+    noteslist.append(textarea);
 
     // sending note to flask
     fetch("/add", {
@@ -80,7 +82,7 @@ function move_note() {
                     if (!(e.clientX+element.offsetWidth/2 >= document.body.clientWidth-10) && !(e.clientX-element.offsetWidth/2 <= 10)) 
                     element.style.left = String(e.clientX-element.offsetWidth/2)+'px';
                     
-                    if (!(e.clientY <= element.offsetHeight/2+180) && !(e.clientY >= document.documentElement.clientHeight-element.offsetHeight/2-40))
+                    if (!(e.clientY <= element.offsetHeight/2+160) && !(e.clientY >= document.documentElement.clientHeight-element.offsetHeight/2-40))
                     element.style.top = String(e.clientY-50)+'px';
                 }
             }
