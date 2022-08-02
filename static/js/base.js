@@ -57,6 +57,8 @@ function move_note() {
                     element.style.left = String(e.clientX-element.offsetWidth/2)+'px';
 
                     element.style.top = String(e.clientY-document.body.clientHeight/2+20)+'px';
+
+                    update_note(element);
                 }
             }
             document.onmouseup = () => {
