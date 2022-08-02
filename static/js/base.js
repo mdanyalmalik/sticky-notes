@@ -1,7 +1,7 @@
+var note_id_list = [];
+
 function add() {
     var content = "";
-    var x = 0;
-    var y = 0;
 
     // adding note to page
     const textarea = document.createElement("textarea");
@@ -12,20 +12,31 @@ function add() {
     noteslist = document.querySelector(".noteslist");
     noteslist.append(textarea);
 
+    // creating note id
+    var id = Math.floor(Math.random() * 10000);
+    while (note_id_list.includes(id)) id = Math.floor(Math.random() * 1000);
+
+    textarea.id = id;
+
     // sending note to flask
     fetch("/add", {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
+        id: id,
         content: content,
-        x: document.clientWidth/2-textarea.width/2,
-        y: document.clientHeight/2-textarea.height/2
+        x: textarea.offsetLeft,
+        y: textarea.offsetTop
     })
     }).then().catch(err => console.log(err));
 }
 
 function update_note(note) {
     console.log(note.value);
+
+}
+
+function update_note_position() {
 }
 
 function move_note() {

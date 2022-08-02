@@ -4,7 +4,7 @@ import datetime
 import os
 import json
 
-KEY_SIZE = 12
+KEY_SIZE = 6
 MAX_NOTE_LENGTH = 500
 
 app = Flask(__name__)
@@ -24,7 +24,7 @@ def home():
     return render_template('home.html')
 
 
-@app.post('/add')
+@app.route('/add', methods=['POST'])
 def add():
     key = os.urandom(KEY_SIZE)
     while str(key) in session:
