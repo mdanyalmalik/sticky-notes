@@ -41,8 +41,10 @@ function add() {
     while (note_id_list.includes(id)) id = Math.floor(Math.random() * 1000);
 
     textarea.id = id;
-
     noteslist.append(textarea);
+
+    // centering note
+    textarea.style.left = String(document.body.clientWidth/2-textarea.offsetWidth/2)+"px";
 
     // sending note to flask
     fetch("/add", {
