@@ -4,16 +4,13 @@ function add() {
     var y = 0;
 
     // adding note to page
-    const form = document.createElement("form");
     const textarea = document.createElement("textarea");
 
     textarea.setAttribute("oninput", "update_note(this)");
     textarea.classList.add("note");
-    form.append(textarea);
 
     noteslist = document.querySelector(".noteslist");
-
-    noteslist.append(form);
+    noteslist.append(textarea);
 
     // sending note to flask
     fetch("/add", {
@@ -21,8 +18,8 @@ function add() {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
         content: content,
-        x: x,
-        y: y
+        x: document.clientWidth/2-textarea.width/2,
+        y: document.clientHeight/2-textarea.height/2
     })
     }).then().catch(err => console.log(err));
 }
@@ -34,16 +31,21 @@ function update_note(note) {
 function move_note() {
     const elements = document.querySelectorAll(":hover");
     const element = elements[elements.length-1];
-    if(element.className == "note") {
-        element.onmousedown = () => {
-            document.onmousemove = (e) => {
-                element.style.left = String(e.clientX-document.body.clientWidth/2-element.style.width/2)+'px';
-                element.style.top = String(e.clientY-document.body.clientHeight/2-element.style.height/2)+'px';
+    if(element) { // if element exists
+        if(element.className == "note") { // if it is a note
+            element.onmousedown = () => {
+                // when mouse is clicked and moving
+                document.onmousemove = (e) => {
+                    if (!(e.clientX+element.offsetWidth/2 >= document.body.clientWidth-10) && !(e.clientX-element.offsetWidth/2 <= 10)) 
+                    element.style.left = String(e.clientX-element.offsetWidth/2)+'px';
+
+                    element.style.top = String(e.clientY-document.body.clientHeight/2+20)+'px';
+                }
             }
-        }
-        document.onmouseup = () => {
-            element.onmousedown = null;
-            document.onmousemove = null;
+            document.onmouseup = () => {
+                element.onmousedown = null;
+                document.onmousemove = null;
+            }
         }
     }
 }

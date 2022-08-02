@@ -4,7 +4,7 @@ import datetime
 import os
 import json
 
-KEY_SIZE = 24
+KEY_SIZE = 12
 MAX_NOTE_LENGTH = 500
 
 app = Flask(__name__)
