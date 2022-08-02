@@ -7,7 +7,7 @@ function add() {
     const form = document.createElement("form");
     const textarea = document.createElement("textarea");
 
-    textarea.onchange = update_note();
+    textarea.setAttribute("oninput", "update_note(this)");
     textarea.classList.add("note");
     form.append(textarea);
 
@@ -24,11 +24,28 @@ function add() {
         x: x,
         y: y
     })
-    }).then(res).catch(err => console.log(err));
+    }).then().catch(err => console.log(err));
 }
 
-function update_note() {
-    console.log("changed");
+function update_note(note) {
+    console.log(note.value);
+}
+
+function move_note() {
+    const elements = document.querySelectorAll(":hover");
+    const element = elements[elements.length-1];
+    if(element.className == "note") {
+        element.onmousedown = () => {
+            document.onmousemove = (e) => {
+                element.style.left = String(e.clientX-document.body.clientWidth/2-element.style.width/2)+'px';
+                element.style.top = String(e.clientY-document.body.clientHeight/2-element.style.height/2)+'px';
+            }
+        }
+        document.onmouseup = () => {
+            element.onmousedown = null;
+            document.onmousemove = null;
+        }
+    }
 }
 
 document.addEventListener('keydown', event => {
@@ -37,6 +54,7 @@ document.addEventListener('keydown', event => {
     notes.forEach(element => {
         element.style.cursor = "move";
     });
+    move_note();
   }
 });
 
@@ -45,6 +63,8 @@ document.addEventListener('keyup', event => {
     notes = document.querySelectorAll(".note");
     notes.forEach(element => {
         element.style.cursor = "text";
+        element.onmousedown = null;
     });
+    document.onmousemove = null;
   }
 });
