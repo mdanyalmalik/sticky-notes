@@ -50,6 +50,8 @@ body {
     min-height: 100px;
     max-height: 200px;
 
+    resize: none;
+
     position: absolute;
     left: 50vw;
 

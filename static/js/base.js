@@ -79,8 +79,9 @@ function move_note() {
                 document.onmousemove = (e) => {
                     if (!(e.clientX+element.offsetWidth/2 >= document.body.clientWidth-10) && !(e.clientX-element.offsetWidth/2 <= 10)) 
                     element.style.left = String(e.clientX-element.offsetWidth/2)+'px';
-
-                    element.style.top = String(e.clientY-document.body.clientHeight/2+20)+'px';
+                    
+                    if (!(e.clientY <= element.offsetHeight/2+180) && !(e.clientY >= document.documentElement.clientHeight-element.offsetHeight/2-40))
+                    element.style.top = String(e.clientY-50)+'px';
                 }
             }
             document.onmouseup = () => {
