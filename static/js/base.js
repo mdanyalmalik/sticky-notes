@@ -1,5 +1,29 @@
 var note_id_list = [];
 
+function load_notes() {
+    fetch("/load_notes")
+    .then(res => res.json())
+    .then(data => {
+        Object.keys(data).forEach((e) => {
+            // adding note to page
+            const textarea = document.createElement("textarea");
+
+            textarea.setAttribute("oninput", "update_note(this)");
+            textarea.classList.add("note");
+
+            noteslist = document.querySelector(".noteslist");
+
+            textarea.id = e;
+            textarea.innerHTML = data[e].content;
+            textarea.style.left = String(data[e].x)+'px';
+            textarea.style.top = String(data[e].y)+'px';
+
+            noteslist.append(textarea);
+        });
+    })
+    .catch(err => console.log(err))
+}
+
 function add() {
     var content = "";
 
@@ -57,13 +81,12 @@ function move_note() {
                     element.style.left = String(e.clientX-element.offsetWidth/2)+'px';
 
                     element.style.top = String(e.clientY-document.body.clientHeight/2+20)+'px';
-
-                    update_note(element);
                 }
             }
             document.onmouseup = () => {
                 element.onmousedown = null;
                 document.onmousemove = null;
+                update_note(element);
             }
         }
     }
@@ -89,3 +112,6 @@ document.addEventListener('keyup', event => {
     document.onmousemove = null;
   }
 });
+
+
+window.onload = load_notes();

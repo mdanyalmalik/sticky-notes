@@ -38,9 +38,20 @@ def add():
         'y': y
     }
 
-    print(session)
-
     return redirect('/')
+
+
+@app.route('/load_notes')
+def load_notes():
+    notes = {}
+    for x in session.items():
+        try:
+            content = session[x[0]]['content']
+            notes.update({x[0]: x[1]})
+        except:
+            pass
+
+    return notes
 
 
 @app.route('/clear')  # temp
