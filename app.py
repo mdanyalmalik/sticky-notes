@@ -30,13 +30,15 @@ def add():
     content = request.json['content']
     x, y = request.json['x'], request.json['y']
 
-    session.permanent()
+    session.permanent = True
 
-    session[id] = {
+    session[str(id)] = {
         'content': content,
         'x': x,
         'y': y
     }
+
+    print(session)
 
     return redirect('/')
 

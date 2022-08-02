@@ -32,11 +32,17 @@ function add() {
 }
 
 function update_note(note) {
-    console.log(note.value);
-
-}
-
-function update_note_position() {
+    // sending note to flask
+    fetch("/add", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+        id: note.id,
+        content: note.value,
+        x: note.offsetLeft,
+        y: note.offsetTop
+    })
+    }).then().catch(err => console.log(err));
 }
 
 function move_note() {
