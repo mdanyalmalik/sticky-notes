@@ -56,11 +56,11 @@ def load_notes():
     return notes
 
 
-@app.route('/delete/<id>', methods=['DELETE'])
+@app.route('/delete/<id>')
 def delete_note(id):
     session.pop(id)
 
-    return id
+    return redirect('/')
 
 
 @app.route('/clear')

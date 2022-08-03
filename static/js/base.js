@@ -12,6 +12,7 @@ function load_notes() {
 
             textarea.setAttribute("oninput", "update_note(this)");
             textarea.classList.add("note");
+            delbutton.setAttribute("onclick", "delete_note(this)");
             delbutton.classList.add("smallbuttonrect");
 
             noteslist = document.querySelector(".noteslist");
@@ -44,6 +45,7 @@ function add() {
 
     textarea.setAttribute("oninput", "update_note(this)");
     textarea.classList.add("note");
+    delbutton.setAttribute("onclick", "delete_note(this)");
     delbutton.classList.add("smallbuttonrect");
 
     noteslist = document.querySelector(".noteslist");
@@ -140,6 +142,10 @@ document.addEventListener('keyup', event => {
     document.onmousemove = null;
   }
 });
+
+function delete_note(button) {
+    window.location.replace("/delete/"+button.dataset.noteid);
+}
 
 function clear_notes() {
     window.location.replace("/clear");
