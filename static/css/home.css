@@ -12,10 +12,6 @@
     cursor: default;
 }
 
-.notes {
-    display: grid;
-}
-
 .btnrow {
     display: flex;
     justify-content: right;

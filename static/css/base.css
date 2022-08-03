@@ -67,3 +67,24 @@ body {
     transform: scale(1.1);
     box-shadow: 0 0 2px #F1F1F1;
 }
+
+.smallbuttonrect {
+    background: none;
+    color: #100F0F;
+    height: 18px;
+    width: 18px;
+    border: 1px solid #100F0F;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+}
+
+.smallbuttonrect:hover {
+    box-shadow: 0 0 5px #F1F1F1;
+    cursor: pointer;
+}
+
+.smallbuttonrect:active {
+    background: #100F0F;
+    color: #E2DCC8;
+    cursor: pointer;
+}

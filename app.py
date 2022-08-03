@@ -38,6 +38,8 @@ def add():
         'y': y
     }
 
+    print(session)
+
     return redirect('/')
 
 
@@ -54,9 +56,17 @@ def load_notes():
     return notes
 
 
+@app.route('/delete/<id>', methods=['DELETE'])
+def delete_note(id):
+    session.pop(id)
+
+    return id
+
+
 @app.route('/clear')
 def session_clear():
     session.clear()
+    session.clear()  # didnt work every time with one for some reason
     return redirect('/')
 
 

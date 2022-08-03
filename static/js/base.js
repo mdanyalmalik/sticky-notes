@@ -7,19 +7,28 @@ function load_notes() {
         Object.keys(data).forEach((e) => {
             // adding note to page
             const textarea = document.createElement("textarea");
+            const delbutton = document.createElement("button");
+            delbutton.textContent = "x";
 
             textarea.setAttribute("oninput", "update_note(this)");
             textarea.classList.add("note");
+            delbutton.classList.add("smallbuttonrect");
 
             noteslist = document.querySelector(".noteslist");
 
             textarea.id = e;
+            delbutton.dataset.noteid = e;
             textarea.innerHTML = data[e].content;
             textarea.style.left = String(data[e].x)+'px';
             textarea.style.top = String(data[e].y)+'px';
 
             noteslist.append(textarea);
+            noteslist.append(delbutton);
             note_id_list.push(e);
+
+            // position delbutton
+            delbutton.style.top = String(textarea.offsetTop)+"px";
+            delbutton.style.left = String(textarea.offsetLeft+textarea.offsetWidth-delbutton.offsetWidth)+"px";
         });
     })
     .catch(err => console.log(err))
@@ -30,9 +39,12 @@ function add() {
 
     // adding note to page
     const textarea = document.createElement("textarea");
+    const delbutton = document.createElement("button");
+    delbutton.textContent = "x";
 
     textarea.setAttribute("oninput", "update_note(this)");
     textarea.classList.add("note");
+    delbutton.classList.add("smallbuttonrect");
 
     noteslist = document.querySelector(".noteslist");
 
@@ -41,10 +53,15 @@ function add() {
     while (note_id_list.includes(id)) id = Math.floor(Math.random() * 1000);
 
     textarea.id = id;
+    delbutton.dataset.noteid = id;
     noteslist.append(textarea);
+    noteslist.append(delbutton);
 
     // centering note
     textarea.style.left = String(document.body.clientWidth/2-textarea.offsetWidth/2)+"px";
+    // position delbutton
+    delbutton.style.top = String(textarea.offsetTop)+"px";
+    delbutton.style.left = String(textarea.offsetLeft+textarea.offsetWidth-delbutton.offsetWidth)+"px";
 
     // sending note to flask
     fetch("/add", {
@@ -86,6 +103,12 @@ function move_note() {
                     
                     if (!(e.clientY <= element.offsetHeight/2+160) && !(e.clientY >= document.documentElement.clientHeight-element.offsetHeight/2-40))
                     element.style.top = String(e.clientY-50)+'px';
+
+                    const delbutton = document.querySelector('[data-noteid = "' + element.id + '"]');
+
+                    // position delbutton
+                    delbutton.style.top = String(element.offsetTop)+"px";
+                    delbutton.style.left = String(element.offsetLeft+element.offsetWidth-delbutton.offsetWidth)+"px";
                 }
             }
             document.onmouseup = () => {
