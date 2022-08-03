@@ -151,5 +151,22 @@ function clear_notes() {
     window.location.replace("/clear");
 }
 
+function notes_onto_screen() {
+    const notes = document.querySelectorAll(".note");
+    notes.forEach((e) => {
+        if (e.offsetLeft+e.offsetWidth >= document.body.clientWidth-10) {
+            e.style.left = String(document.body.clientWidth-e.offsetWidth-10)+"px";
+
+            update_note(e);
+            
+            const delbutton = document.querySelector('[data-noteid = "' + e.id + '"]');
+
+            // position delbutton
+            delbutton.style.top = String(e.offsetTop)+"px";
+            delbutton.style.left = String(e.offsetLeft+e.offsetWidth-delbutton.offsetWidth)+"px";
+        }
+    });
+}
 
 window.onload = load_notes();
+window.onresize = notes_onto_screen;
