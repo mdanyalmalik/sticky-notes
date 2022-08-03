@@ -103,8 +103,8 @@ function move_note() {
                     if (!(e.clientX+element.offsetWidth/2 >= document.body.clientWidth-10) && !(e.clientX-element.offsetWidth/2 <= 10)) 
                     element.style.left = String(e.clientX-element.offsetWidth/2)+'px';
                     
-                    if (!(e.clientY <= element.offsetHeight/2+160) && !(e.clientY >= document.documentElement.clientHeight-element.offsetHeight/2-40))
-                    element.style.top = String(e.clientY-50)+'px';
+                    if (!(e.clientY <= element.offsetHeight/2+160))
+                    element.style.top = String(scrollY+e.clientY-50)+'px';
 
                     const delbutton = document.querySelector('[data-noteid = "' + element.id + '"]');
 

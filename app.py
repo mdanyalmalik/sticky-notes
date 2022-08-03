@@ -38,8 +38,6 @@ def add():
         'y': y
     }
 
-    print(session)
-
     return redirect('/')
 
 
