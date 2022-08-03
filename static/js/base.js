@@ -1,5 +1,12 @@
 var note_id_list = [];
 
+function move_delbutton(note) {
+    const delbutton = document.querySelector("[data-noteid = '" + note.id + "']");
+
+    delbutton.style.top = String(note.offsetTop)+"px";
+    delbutton.style.left = String(note.offsetLeft+note.offsetWidth-delbutton.offsetWidth)+"px";
+}
+
 function load_notes() {
     fetch("/load_notes")
     .then(res => res.json())
@@ -27,12 +34,12 @@ function load_notes() {
             noteslist.append(delbutton);
             note_id_list.push(e);
 
-            // position delbutton
-            delbutton.style.top = String(textarea.offsetTop)+"px";
-            delbutton.style.left = String(textarea.offsetLeft+textarea.offsetWidth-delbutton.offsetWidth)+"px";
+            move_delbutton(textarea);
         });
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
+
+    notes_onto_screen();
 }
 
 function add() {
@@ -61,21 +68,9 @@ function add() {
 
     // centering note
     textarea.style.left = String(document.body.clientWidth/2-textarea.offsetWidth/2)+"px";
-    // position delbutton
-    delbutton.style.top = String(textarea.offsetTop)+"px";
-    delbutton.style.left = String(textarea.offsetLeft+textarea.offsetWidth-delbutton.offsetWidth)+"px";
 
-    // sending note to flask
-    fetch("/add", {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-        id: id,
-        content: content,
-        x: textarea.offsetLeft,
-        y: textarea.offsetTop
-    })
-    }).then().catch(err => console.log(err));
+    move_delbutton(textarea);
+    update_note(textarea);
 }
 
 function update_note(note) {
@@ -186,13 +181,8 @@ function notes_onto_screen() {
         if (e.offsetLeft+e.offsetWidth >= document.body.clientWidth-10) {
             e.style.left = String(document.body.clientWidth-e.offsetWidth-10)+"px";
 
+            move_delbutton(e);
             update_note(e);
-            
-            const delbutton = document.querySelector('[data-noteid = "' + e.id + '"]');
-
-            // position delbutton
-            delbutton.style.top = String(e.offsetTop)+"px";
-            delbutton.style.left = String(e.offsetLeft+e.offsetWidth-delbutton.offsetWidth)+"px";
         }
     });
 }
