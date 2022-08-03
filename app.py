@@ -54,10 +54,9 @@ def load_notes():
     return notes
 
 
-@app.route('/clear')  # temp
+@app.route('/clear')
 def session_clear():
     session.clear()
-
     return redirect('/')
 
 

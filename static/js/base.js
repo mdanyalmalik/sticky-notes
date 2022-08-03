@@ -118,5 +118,9 @@ document.addEventListener('keyup', event => {
   }
 });
 
+function clear_notes() {
+    window.location.replace("/clear");
+}
+
 
 window.onload = load_notes();
