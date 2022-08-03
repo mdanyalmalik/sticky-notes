@@ -144,11 +144,40 @@ document.addEventListener('keyup', event => {
 });
 
 function delete_note(button) {
-    window.location.replace("/delete/"+button.dataset.noteid);
+    fetch("/delete/"+button.dataset.noteid, {
+    method: "DELETE"
+    })
+    .then(res => {
+    })
+    .catch(err => console.log(err));
+
+    const note = document.querySelector("[id='"+button.dataset.noteid+"']");
+    note.remove();
+    button.remove();
+
+    const index = note_id_list.indexOf(button.dataset.noteid);
+    if (index > -1) { 
+        note_id_list.splice(index, 1);
+    }
 }
 
 function clear_notes() {
-    window.location.replace("/clear");
+    fetch("/clear", {
+    method: "DELETE"
+    })
+    .then(res => {
+    })
+    .catch(err => console.log(err));
+
+    const notes = document.querySelectorAll(".note");
+
+    notes.forEach((e) => {
+        e.remove();
+        const button = document.querySelector("[data-noteid='"+e.id+"']");
+        button.remove();
+    });
+
+    note_id_list = [];
 }
 
 function notes_onto_screen() {

@@ -38,7 +38,7 @@ def add():
         'y': y
     }
 
-    return redirect('/')
+    return "Success"
 
 
 @app.route('/load_notes')
@@ -54,18 +54,18 @@ def load_notes():
     return notes
 
 
-@app.route('/delete/<id>')
+@app.route('/delete/<id>', methods=['DELETE'])
 def delete_note(id):
     session.pop(id)
 
-    return redirect('/')
+    return id
 
 
-@app.route('/clear')
+@app.route('/clear', methods=['DELETE'])
 def session_clear():
     session.clear()
-    session.clear()  # didnt work every time with one for some reason
-    return redirect('/')
+
+    return "Success"
 
 
 if __name__ == '__main__':
