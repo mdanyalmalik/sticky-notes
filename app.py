@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 # change this based on which db you are creating
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db'
+app.config["SESSION_TYPE"] = "filesystem"
 
 db = SQLAlchemy(app)
 
