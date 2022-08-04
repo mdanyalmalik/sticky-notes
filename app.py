@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, session, request
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import os
@@ -12,6 +13,8 @@ app = Flask(__name__)
 # change this based on which db you are creating
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db'
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_PERMANENT"] = True
+Session(app)
 
 db = SQLAlchemy(app)
 
