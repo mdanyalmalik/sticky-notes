@@ -1,5 +1,11 @@
 var note_id_list = [];
 
+const isTouchDevice = () => {  
+  return (('ontouchstart' in window) ||  
+    (navigator.maxTouchPoints > 0) ||  
+    (navigator.msMaxTouchPoints > 0));  
+};
+
 function move_delbutton(note) {
     const delbutton = document.querySelector("[data-noteid = '" + note.id + "']");
 
@@ -43,8 +49,6 @@ function load_notes() {
 }
 
 function add() {
-    var content = "";
-
     // adding note to page
     const textarea = document.createElement("textarea");
     const delbutton = document.createElement("button");
