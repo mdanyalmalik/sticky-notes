@@ -17,7 +17,17 @@ function load_notes() {
     fetch("/load_notes")
     .then(res => res.json())
     .then(data => {
-        Object.keys(data).forEach((e) => {
+        var note_keys = Object.keys(data);
+        if (isTouchDevice()){
+            var notes = Object.entries(data).sort((a, b) => {
+                if (a[1]['y'] < b[1]['y']) return -1;
+                if (a[1]['y'] > b[1]['y']) return 1;
+                return 0;
+            });
+            note_keys = notes.map(e => {return e[0]});
+        }
+
+        note_keys.forEach((e) => {
             // adding note to page
             const textarea = document.createElement("textarea");
             const delbutton = document.createElement("button");
@@ -27,6 +37,8 @@ function load_notes() {
             textarea.classList.add("note");
             delbutton.setAttribute("onclick", "delete_note(this)");
             delbutton.classList.add("smallbuttonrect");
+
+            if (isTouchDevice()) textarea.style.position = "static";
 
             noteslist = document.querySelector(".noteslist");
 
@@ -61,6 +73,8 @@ function add() {
 
     noteslist = document.querySelector(".noteslist");
 
+    if (isTouchDevice()) textarea.style.position = "static";
+
     // creating note id
     var id = Math.floor(Math.random() * 10000);
     while (note_id_list.includes(id)) id = Math.floor(Math.random() * 1000);
@@ -75,6 +89,7 @@ function add() {
 
     move_delbutton(textarea);
     update_note(textarea);
+
 }
 
 function update_note(note) {
@@ -157,6 +172,13 @@ function delete_note(button) {
     const index = note_id_list.indexOf(button.dataset.noteid);
     if (index > -1) { 
         note_id_list.splice(index, 1);
+    }
+
+    if (isTouchDevice()) {
+        const notes = document.querySelectorAll(".note");
+        notes.forEach((e) => {
+            move_delbutton(e);
+        });
     }
 }
 
