@@ -23,6 +23,21 @@ app.secret_key = os.urandom(KEY_SIZE)
 app.permanent_session_lifetime = datetime.timedelta(days=365)
 
 
+class Users(db.Model):
+    id = db.Column(db.String(KEY_SIZE), primary_key=True,
+                   default=os.urandom(KEY_SIZE))
+    notes = db.relationship('Notes', backref='user', lazy=True)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Notes(db.Model):
+    user_id = db.Column(db.String(KEY_SIZE), db.ForeignKey('user.id'),
+                        nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(MAX_NOTE_LENGTH), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+
 @app.route('/')
 def home():
     return render_template('home.html')
