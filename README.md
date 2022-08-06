@@ -23,7 +23,7 @@ python app.py
 
 ## Authors
 
-ex. [@Me](https://github.com/mdanyalmalik)
+[@Me](https://github.com/mdanyalmalik)
 
 ## Version History
 
