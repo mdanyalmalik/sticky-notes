@@ -26,16 +26,16 @@ app.permanent_session_lifetime = datetime.timedelta(days=365)
 class Users(db.Model):
     id = db.Column(db.String(KEY_SIZE), primary_key=True,
                    default=os.urandom(KEY_SIZE))
-    notes = db.relationship('Notes', backref='user', lazy=True)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    name = db.Column(db.String())
+    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    notes = db.relationship('Notes', backref='user')
 
 
 class Notes(db.Model):
-    user_id = db.Column(db.String(KEY_SIZE), db.ForeignKey('user.id'),
-                        nullable=False)
+    user_id = db.Column(db.String(KEY_SIZE), db.ForeignKey('users.id'))
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(MAX_NOTE_LENGTH), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
 
 @app.route('/')
