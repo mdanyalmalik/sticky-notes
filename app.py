@@ -4,6 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 import datetime
 import os
 import json
+from google_auth_oauthlib.flow import Flow
+import google
+import google.auth.transport.requests as requests
+import google.oauth2.id_token as id_token
+import pip._vendor.cachecontrol as cachecontrol
+import requests  # needed for google request lib above
 
 KEY_SIZE = 6
 MAX_NOTE_LENGTH = 500
