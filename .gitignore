@@ -130,3 +130,6 @@ dmypy.json
 
 # to do list for personal use
 todo.md
+
+#flask session
+flask_session/

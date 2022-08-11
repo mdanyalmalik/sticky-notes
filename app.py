@@ -48,7 +48,7 @@ flow = Flow.from_client_secrets_file(
 
 
 class Users(db.Model):
-    id = db.Column(db.String(KEY_SIZE), primary_key=True,
+    id = db.Column(db.String(), primary_key=True,
                    default=os.urandom(KEY_SIZE))
     name = db.Column(db.String())
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
@@ -56,7 +56,7 @@ class Users(db.Model):
 
 
 class Notes(db.Model):
-    user_id = db.Column(db.String(KEY_SIZE), db.ForeignKey('users.id'))
+    user_id = db.Column(db.String(), db.ForeignKey('users.id'))
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(MAX_NOTE_LENGTH), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
@@ -114,12 +114,10 @@ def session_clear():
 @app.route('/login')
 def login():
     authorisation_url, state = flow.authorization_url()
-    # ensuring the state is the same as google auth returns
     session["state"] = state
-    return redirect(authorisation_url)  # redirect to auth screen
+    return redirect(authorisation_url)
 
 
-# redirected here after login
 @app.route('/callback')
 def callback():
     flow.fetch_token(authorization_response=request.url)
@@ -138,6 +136,12 @@ def callback():
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
+
+    # adding user to db
+    new_user = Users(id=id_info.get("sub"), name=id_info.get("name"))
+    db.session.add(new_user)
+    db.session.commit()
+
     return redirect("/user_notes")
 
 
@@ -164,7 +168,7 @@ def login_is_required(function):
 @app.route('/user_notes')
 @login_is_required
 def user_notes():
-    return "Protected <br> <a href = '/logout'>Logout</a> "
+    return "User Notes <br> <a href = '/logout'>Logout</a> "
 
 
 if __name__ == '__main__':
