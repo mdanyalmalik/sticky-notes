@@ -11,6 +11,8 @@ import google.oauth2.id_token as id_token
 import pip._vendor.cachecontrol as cachecontrol
 import requests  # needed for google request lib above
 import pathlib
+from src.notes_to_db import notes_to_db
+
 
 KEY_SIZE = 6
 MAX_NOTE_LENGTH = 500
@@ -18,7 +20,6 @@ DEBUG_MODE = True
 
 app = Flask(__name__)
 
-# change this based on which db you are creating
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db'
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_PERMANENT"] = True
@@ -60,6 +61,8 @@ class Notes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(MAX_NOTE_LENGTH), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    x = db.Column(db.Integer)
+    y = db.Column(db.Integer)
 
 
 @app.route('/')
@@ -138,9 +141,12 @@ def callback():
     session["name"] = id_info.get("name")
 
     # adding user to db
-    new_user = Users(id=id_info.get("sub"), name=id_info.get("name"))
-    db.session.add(new_user)
-    db.session.commit()
+    if not db.session.query(Users.id).filter_by(id=id_info.get("sub")):
+        new_user = Users(id=id_info.get("sub"), name=id_info.get("name"))
+        db.session.add(new_user)
+        db.session.commit()
+
+    # notes_to_db(db, Notes, session, id_info.get("sub"))
 
     return redirect("/user_notes")
 
