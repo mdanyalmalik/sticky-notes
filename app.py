@@ -11,7 +11,6 @@ import google.oauth2.id_token as id_token
 import pip._vendor.cachecontrol as cachecontrol
 import requests  # needed for google request lib above
 import pathlib
-from src.notes_to_db import notes_to_db
 
 
 KEY_SIZE = 6
@@ -63,6 +62,18 @@ class Notes(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     x = db.Column(db.Integer)
     y = db.Column(db.Integer)
+
+
+def notes_to_db(db, notes_class, session, user_id):
+    for key in session:
+        try:
+            content = session[key]['content']
+            new_note = notes_class(user_id=user_id,
+                                   id=key, content=session[key]['content'], x=session[key]['x'], y=session[key]['y'])
+            db.session.add(new_note)
+            db.session.commit()
+        except Exception as e:
+            print(e)
 
 
 @app.route('/')
@@ -146,7 +157,7 @@ def callback():
         db.session.add(new_user)
         db.session.commit()
 
-    # notes_to_db(db, Notes, session, id_info.get("sub"))
+    notes_to_db(db, Notes, session, id_info.get("sub"))
 
     return redirect("/user_notes")
 
