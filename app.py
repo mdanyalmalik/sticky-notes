@@ -73,7 +73,7 @@ def notes_to_db(db, notes_class, session, user_id):
             db.session.add(new_note)
             db.session.commit()
         except Exception as e:
-            print(e)
+            pass
 
 
 @app.route('/')
@@ -83,17 +83,20 @@ def home():
 
 @app.route('/add', methods=['POST'])
 def add():
-    id = request.json['id']
-    content = request.json['content']
-    x, y = request.json['x'], request.json['y']
+    if "google_id" not in session:
+        id = request.json['id']
+        content = request.json['content']
+        x, y = request.json['x'], request.json['y']
 
-    session.permanent = True
+        session.permanent = True
 
-    session[str(id)] = {
-        'content': content,
-        'x': x,
-        'y': y
-    }
+        session[str(id)] = {
+            'content': content,
+            'x': x,
+            'y': y
+        }
+    else:
+        notes_to_db(db, Notes, session, session['google_id'])
 
     return "Success"
 
