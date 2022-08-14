@@ -1,3 +1,4 @@
+from tkinter import Y
 from flask import Flask, render_template, url_for, redirect, session, request, abort
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -64,7 +65,7 @@ class Notes(db.Model):
     y = db.Column(db.Integer)
 
 
-def notes_to_db(db, notes_class, session, user_id):
+def session_to_db(db, notes_class, session, user_id):
     for key in session:
         try:
             content = session[key]['content']
@@ -83,11 +84,10 @@ def home():
 
 @app.route('/add', methods=['POST'])
 def add():
+    id = request.json['id']
+    content = request.json['content']
+    x, y = request.json['x'], request.json['y']
     if "google_id" not in session:
-        id = request.json['id']
-        content = request.json['content']
-        x, y = request.json['x'], request.json['y']
-
         session.permanent = True
 
         session[str(id)] = {
@@ -96,7 +96,17 @@ def add():
             'y': y
         }
     else:
-        notes_to_db(db, Notes, session, session['google_id'])
+        if not Notes.query.filter_by(id=id):
+            new_note = Notes(
+                user_id=session['google_id'], id=id, content=content, x=x, y=y)
+            db.session.add(new_note)
+        else:
+            note = Notes.query.filter_by(id=id).first()
+            note.content = content
+            note.x = x
+            note.y = y
+
+        db.session.commit()
 
     return "Success"
 
@@ -104,12 +114,22 @@ def add():
 @app.route('/load_notes')
 def load_notes():
     notes = {}
-    for x in session.items():
-        try:
-            content = session[x[0]]['content']
-            notes.update({x[0]: x[1]})
-        except:
-            pass
+    if "google_id" not in session:
+        for x in session.items():
+            try:
+                content = session[x[0]]['content']
+                notes.update({x[0]: x[1]})
+            except:
+                pass
+    else:
+        ids = db.session.query(Notes.id)
+        contents = db.session.query(Notes.content)
+        xs = db.session.query(Notes.x)
+        ys = db.session.query(Notes.y)
+
+        for id, content, x, y in zip(ids, contents, xs, ys):
+            notes.update(
+                {id[0]: {'content': content[0], 'x': x[0], 'y': y[0]}})
 
     return notes
 
@@ -160,7 +180,7 @@ def callback():
         db.session.add(new_user)
         db.session.commit()
 
-    notes_to_db(db, Notes, session, id_info.get("sub"))
+    session_to_db(db, Notes, session, id_info.get("sub"))
 
     return redirect("/user_notes")
 
@@ -169,26 +189,6 @@ def callback():
 def logout():
     session.clear()
     return redirect('/')
-
-
-@app.route('/')
-def index():
-    return "Home <br> <a href='/login'>Login</a>"
-
-
-def login_is_required(function):
-    def wrapper(*args, **kwargs):
-        if "google_id" not in session:
-            return abort(401)
-        else:
-            return function()
-    return wrapper
-
-
-@app.route('/user_notes')
-@login_is_required
-def user_notes():
-    return "User Notes <br> <a href = '/logout'>Logout</a> "
 
 
 if __name__ == '__main__':
