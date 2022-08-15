@@ -2,6 +2,9 @@
     padding: 10px 0 10px 0;
     background: #0F3D3E;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .header h1 {
@@ -10,6 +13,20 @@
 
 .header h1:hover {
     cursor: default;
+}
+
+.header a {
+    position: absolute;
+    font-size: 13px;
+    right: 20px;
+    top: 55px;
+    font-family: sans-serif;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.header a:hover {
+    color: #E2DCC8;
 }
 
 .btnrow {

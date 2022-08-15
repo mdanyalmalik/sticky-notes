@@ -182,7 +182,7 @@ def callback():
 
     session_to_db(db, Notes, session, id_info.get("sub"))
 
-    return redirect("/user_notes")
+    return redirect("/")
 
 
 @app.route('/logout')

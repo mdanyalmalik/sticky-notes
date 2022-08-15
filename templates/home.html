@@ -6,6 +6,11 @@
 {% endblock %} {% block body %}
 <section class="header">
   <h1>Sticky Notes</h1>
+  {% if "google_id" not in session %}
+  <a href="/login">Sign in with Google</a>
+  {% else %}
+  <a href="/logout">Sign out</a>
+  {% endif %}
 </section>
 <section class="notes">
   <div class="btnrow">
