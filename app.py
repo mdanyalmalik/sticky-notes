@@ -1,4 +1,3 @@
-from tkinter import Y
 from flask import Flask, render_template, url_for, redirect, session, request, abort
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -16,7 +15,7 @@ import pathlib
 
 KEY_SIZE = 6
 MAX_NOTE_LENGTH = 500
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 app = Flask(__name__)
 
