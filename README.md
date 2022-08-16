@@ -28,9 +28,15 @@ python app.py
 ## Version History
 
 - 1.0.0
+
   - initial release
   - hosting on heroku
   - notes saved in sessions alone
+
+- 2.0.0
+  - hosting on heroku
+  - notes saved in session if not logged in
+  - logging in saves notes to database under your account
 
 ## License
 
