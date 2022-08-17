@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a sticky notes app written with Flask and Vanilla Javascript. You can add notes, move them around on the screen and the app will keep both their contens and positions saved. On touch screen devices, the notes will simply appear in a column.
+This is a sticky notes app written with Flask and Vanilla Javascript. You can add notes, move them around on the screen and the app will keep both their contents and positions saved. On touch screen devices, the notes will simply appear in a column. You can login using your google account. This will save your notes to your account and any more notes you add will be added to your account as well.
 
 ## Getting Started
 
