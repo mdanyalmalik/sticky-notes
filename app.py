@@ -133,6 +133,13 @@ def load_notes():
 def delete_note(id):
     if "google_id" not in session:
         session.pop(id)
+    else:
+        note = Notes.query.get_or_404(id)
+        try:
+            db.session.delete(note)
+            db.session.commit()
+        except:
+            return 'Error'
 
     return id
 
