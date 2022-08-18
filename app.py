@@ -131,14 +131,16 @@ def load_notes():
 
 @app.route('/delete/<id>', methods=['DELETE'])
 def delete_note(id):
-    session.pop(id)
+    if "google_id" not in session:
+        session.pop(id)
 
     return id
 
 
 @app.route('/clear', methods=['DELETE'])
 def session_clear():
-    session.clear()
+    if "google_id" not in session:
+        session.clear()
 
     return "Success"
 
