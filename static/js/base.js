@@ -1,11 +1,13 @@
 var note_id_list = [];
 
+// checking if it is a touch screen device
 const isTouchDevice = () => {  
   return (('ontouchstart' in window) ||  
     (navigator.maxTouchPoints > 0) ||  
     (navigator.msMaxTouchPoints > 0));  
 };
 
+// move delete button alongside its corresponding note
 function move_delbutton(note) {
     const delbutton = document.querySelector("[data-noteid = '" + note.id + "']");
 
@@ -13,6 +15,7 @@ function move_delbutton(note) {
     delbutton.style.left = String(note.offsetLeft+note.offsetWidth-delbutton.offsetWidth)+"px";
 }
 
+// load notes onto the page from session or db
 function load_notes() {
     fetch("/load_notes")
     .then(res => res.json())
@@ -136,6 +139,7 @@ function move_note() {
     }
 }
 
+// ctrl event listeners to move notes
 document.addEventListener('keydown', event => {
   if (event.key == "Control") {
     notes = document.querySelectorAll(".note");
@@ -157,6 +161,7 @@ document.addEventListener('keyup', event => {
   }
 });
 
+// delete button from page and db/session
 function delete_note(button) {
     fetch("/delete/"+button.dataset.noteid, {
     method: "DELETE"
@@ -182,6 +187,7 @@ function delete_note(button) {
     }
 }
 
+// clear all notes from page and db/session
 function clear_notes() {
     fetch("/clear", {
     method: "DELETE"
@@ -201,6 +207,7 @@ function clear_notes() {
     note_id_list = [];
 }
 
+// correct for notes moving off screen due to resizing
 function notes_onto_screen() {
     const notes = document.querySelectorAll(".note");
     notes.forEach((e) => {
